@@ -2,7 +2,7 @@ import Vapor
 import FluentProvider
 import Foundation
 import HTTP
-import MySQLProvider
+import PostgreSQLProvider
 
 public final class BackendUserResetPasswordToken: Model, Timestampable, Preparation {
     public let storage = Storage()
@@ -50,13 +50,16 @@ public final class BackendUserResetPasswordToken: Model, Timestampable, Preparat
         return true
     }
 
-    public static func prepare(_ database: Database) throws {
+    public static func prepare(_ database: Database) throws
+    {
         try database.create(self) { table in
+            
             table.id()
-            table.varchar("email", length: 191, unique: true)
-            table.varchar("token", length: 191)
-            table.datetime("usedAt", optional: true)
-            table.datetime("expireAt", optional: true)
+            table.string("email", length: 191, unique: true)
+            table.string("token", length: 191)
+            table.date("usedAt", optional: true)
+            table.date("expireAt", optional: true)
+            
         }
 
         try database.index("email", for: self)
@@ -67,3 +70,14 @@ public final class BackendUserResetPasswordToken: Model, Timestampable, Preparat
         try database.delete(self)
     }
 }
+
+
+
+
+
+
+
+
+
+
+

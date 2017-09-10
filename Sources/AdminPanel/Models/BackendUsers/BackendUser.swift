@@ -3,10 +3,11 @@ import FluentProvider
 import Foundation
 import HTTP
 import AuthProvider
-import MySQLProvider
 import Sugar
+import PostgreSQLProvider
 
-public final class BackendUser: Model, Timestampable, NodeConvertible, Preparation {
+public final class BackendUser: Model, Timestampable, NodeConvertible, Preparation
+{
     public let storage = Storage()
 
     public var name: String
@@ -131,11 +132,11 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
     public static func prepare(_ database: Database) throws {
         try database.create(self) { table in
             table.id()
-            table.varchar("name", length: 191)
-            table.varchar("email", length: 191, unique: true)
-            table.varchar("password", length: 191)
-            table.varchar("role", length: 191)
-            table.varchar("image", length: 191, optional: true)
+            table.string("name", length: 191)
+            table.string("email", length: 191, unique: true)
+            table.string("password", length: 191)
+            table.string("role", length: 191)
+            table.string("image", length: 191, optional: true)
             table.bool("shouldResetPassword", default: Node(false))
         }
 
